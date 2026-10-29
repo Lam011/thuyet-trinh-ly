@@ -18,6 +18,7 @@ const prevSlide=document.getElementById('prevSlide');
 const nextSlide=document.getElementById('nextSlide');
 const slideCount=document.getElementById('slideCount');
 const fullscreenBtn=document.getElementById('fullscreenBtn');
+const startPresentation=document.getElementById('startPresentation');
 let currentSlide=Math.max(0,slides.findIndex(s=>s.classList.contains('active-slide')));
 function showSlide(index){
   currentSlide=Math.max(0,Math.min(index,slides.length-1));
@@ -32,6 +33,7 @@ function showSlide(index){
   progress.style.width=((currentSlide+1)/slides.length*100)+'%';
   history.replaceState(null,'','#'+(slides[currentSlide].id||('slide-'+(currentSlide+1))));
 }
+if(startPresentation) startPresentation.addEventListener('click',()=>showSlide(1));
 prevSlide.addEventListener('click',()=>showSlide(currentSlide-1));
 nextSlide.addEventListener('click',()=>showSlide(currentSlide+1));
 document.addEventListener('keydown',event=>{
@@ -46,4 +48,7 @@ fullscreenBtn.addEventListener('click',async()=>{
     else await document.exitFullscreen();
   }catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng';}
 });
+const hashId=decodeURIComponent(location.hash.slice(1));
+const hashIndex=slides.findIndex(slide=>slide.id===hashId);
+if(hashIndex>=0) currentSlide=hashIndex;
 showSlide(currentSlide);
