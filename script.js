@@ -11,3 +11,39 @@ document.querySelectorAll('.answers button').forEach(btn=>btn.addEventListener('
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
 document.querySelectorAll('.card,.section-head').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity .7s ease, transform .7s ease';observer.observe(el)});
 const style=document.createElement('style');style.textContent='.show{opacity:1!important;transform:none!important}';document.head.appendChild(style);
+
+/* PowerPoint-style slide navigation */
+const slides=Array.from(document.querySelectorAll('main .slide'));
+const prevSlide=document.getElementById('prevSlide');
+const nextSlide=document.getElementById('nextSlide');
+const slideCount=document.getElementById('slideCount');
+const fullscreenBtn=document.getElementById('fullscreenBtn');
+let currentSlide=Math.max(0,slides.findIndex(s=>s.classList.contains('active-slide')));
+function showSlide(index){
+  currentSlide=Math.max(0,Math.min(index,slides.length-1));
+  slides.forEach((slide,i)=>{
+    slide.classList.toggle('active-slide',i===currentSlide);
+    slide.setAttribute('aria-hidden',i===currentSlide?'false':'true');
+    if(i===currentSlide) slide.scrollTop=0;
+  });
+  slideCount.textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+  prevSlide.disabled=currentSlide===0;
+  nextSlide.disabled=currentSlide===slides.length-1;
+  progress.style.width=((currentSlide+1)/slides.length*100)+'%';
+  history.replaceState(null,'','#'+(slides[currentSlide].id||('slide-'+(currentSlide+1))));
+}
+prevSlide.addEventListener('click',()=>showSlide(currentSlide-1));
+nextSlide.addEventListener('click',()=>showSlide(currentSlide+1));
+document.addEventListener('keydown',event=>{
+  if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();showSlide(currentSlide+1);}
+  if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();showSlide(currentSlide-1);}
+  if(event.key==='Home')showSlide(0);
+  if(event.key==='End')showSlide(slides.length-1);
+});
+fullscreenBtn.addEventListener('click',async()=>{
+  try{
+    if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    else await document.exitFullscreen();
+  }catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng';}
+});
+showSlide(currentSlide);
