@@ -10,7 +10,7 @@
 <body>
   <div class="progress" id="progress"></div>
   <header class="nav">
-    <div class="brand">VẬT LÍ 10 <span>· CHUYÊN ĐỀ</span></div>
+    <div class="brand"><span class="brand-mark">Φ</span> VẬT LÍ 10 <span>· CHUYÊN ĐỀ 2</span></div>
     <div class="presentation-label">CHẾ ĐỘ TRÌNH CHIẾU</div>
     <button class="theme" id="themeBtn">☾</button>
   </header>
@@ -18,10 +18,12 @@
   <main>
     <section class="hero slide active-slide" id="home">
       <div class="hero-copy reveal">
-        <p class="eyebrow">CHUYÊN ĐỀ 2 · TRÁI ĐẤT VÀ BẦU TRỜI</p>
+        <p class="eyebrow"><span class="live-dot"></span> CHUYÊN ĐỀ 2 · TRÁI ĐẤT VÀ BẦU TRỜI</p>
         <h1>Nhật thực,<br><em>Nguyệt thực</em><br>& Thủy triều</h1>
-        <p class="lead">Ba hiện tượng quen thuộc trên Trái Đất đều có thể được giải thích bằng chuyển động và lực hấp dẫn của các thiên thể.</p>
-        <a class="btn" href="#nhat-thuc">Bắt đầu khám phá →</a>
+        <p class="lead">Vì sao Mặt Trời có lúc bị che khuất? Vì sao Mặt Trăng đổi màu? Điều gì khiến mực nước biển lên xuống?</p>
+        <p class="hero-subtitle">Cùng tìm lời giải qua vị trí các thiên thể và lực hấp dẫn.</p>
+        <button class="btn" id="startPresentation">Bắt đầu trình bày <span>→</span></button>
+        <div class="presenter-meta"><span>VẬT LÍ 10</span><i></i><span>THUYẾT TRÌNH KHOA HỌC</span></div>
       </div>
       <div class="orbit-scene reveal">
         <div class="sun">☀</div><div class="orbit o1"></div><div class="orbit o2"></div><div class="earth">🌍</div><div class="moon">●</div>
@@ -29,7 +31,7 @@
     </section>
 
     <section class="section slide" id="nhat-thuc">
-      <div class="section-head"><span>01</span><div><p class="eyebrow">HIỆN TƯỢNG THIÊN VĂN</p><h2>Nhật thực</h2></div></div>
+      <div class="section-head"><span>01</span><div><p class="eyebrow">HIỆN TƯỢNG THIÊN VĂN</p><h2>Nhật thực</h2><p class="slide-subtitle">Khi Mặt Trăng che khuất Mặt Trời</p></div></div>
       <div class="grid two">
         <article class="card diagram-card"><div class="diagram eclipse"><div>☀</div><i></i><div>🌍</div></div><p class="caption">Mặt Trăng nằm giữa Mặt Trời và Trái Đất.</p></article>
         <article class="card"><h3>Điều gì xảy ra?</h3><p>Khi Mặt Trăng đi giữa Mặt Trời và Trái Đất, bóng của Mặt Trăng có thể đổ xuống một phần bề mặt Trái Đất. Người quan sát trong vùng thích hợp sẽ thấy Mặt Trời bị che khuất một phần hoặc toàn phần.</p><div class="fact"><b>Nhớ nhanh</b><br>Mặt Trời → Mặt Trăng → Trái Đất</div></article>
@@ -37,7 +39,7 @@
     </section>
 
     <section class="section alt slide" id="nguyet-thuc">
-      <div class="section-head"><span>02</span><div><p class="eyebrow">HIỆN TƯỢNG THIÊN VĂN</p><h2>Nguyệt thực</h2></div></div>
+      <div class="section-head"><span>02</span><div><p class="eyebrow">HIỆN TƯỢNG THIÊN VĂN</p><h2>Nguyệt thực</h2><p class="slide-subtitle">Khi Mặt Trăng đi vào bóng Trái Đất</p></div></div>
       <div class="grid two reverse">
         <article class="card"><h3>Điều gì xảy ra?</h3><p>Khi Trái Đất nằm giữa Mặt Trời và Mặt Trăng, Mặt Trăng có thể đi vào vùng bóng của Trái Đất. Khi đó, ta quan sát được nguyệt thực.</p><div class="fact"><b>Nhớ nhanh</b><br>Mặt Trời → Trái Đất → Mặt Trăng</div></article>
         <article class="card diagram-card"><div class="diagram lunar"><div>☀</div><i></i><div>🌍</div><i></i><div>●</div></div><p class="caption">Trái Đất nằm giữa Mặt Trời và Mặt Trăng.</p></article>
@@ -45,7 +47,7 @@
     </section>
 
     <section class="section slide" id="thuy-trieu">
-      <div class="section-head"><span>03</span><div><p class="eyebrow">LỰC HẤP DẪN</p><h2>Thủy triều</h2></div></div>
+      <div class="section-head"><span>03</span><div><p class="eyebrow">LỰC HẤP DẪN</p><h2>Thủy triều</h2><p class="slide-subtitle">Lực hấp dẫn góp phần làm mực nước biển thay đổi</p></div></div>
       <div class="grid three">
         <article class="card"><div class="icon">🌙</div><h3>Mặt Trăng</h3><p>Lực hấp dẫn của Mặt Trăng tác động lên nước biển và là nguyên nhân quan trọng tạo nên thủy triều.</p></article>
         <article class="card"><div class="icon">☀</div><h3>Mặt Trời</h3><p>Mặt Trời cũng tạo lực hấp dẫn lên Trái Đất. Vị trí tương đối của Mặt Trời và Mặt Trăng làm thủy triều mạnh hoặc yếu.</p></article>
@@ -55,12 +57,12 @@
     </section>
 
     <section class="section alt slide" id="compare">
-      <div class="section-head"><span>04</span><div><p class="eyebrow">SO SÁNH</p><h2>Phân biệt trong 10 giây</h2></div></div>
+      <div class="section-head"><span>04</span><div><p class="eyebrow">TỔNG HỢP KIẾN THỨC</p><h2>Phân biệt trong 10 giây</h2><p class="slide-subtitle">Chỉ cần nhớ thiên thể nằm ở giữa</p></div></div>
       <div class="table-wrap"><table><thead><tr><th>Hiện tượng</th><th>Vị trí ở giữa</th><th>Kết quả</th></tr></thead><tbody><tr><td>Nhật thực</td><td>Mặt Trăng</td><td>Mặt Trời bị che khuất khi quan sát từ vùng thích hợp trên Trái Đất.</td></tr><tr><td>Nguyệt thực</td><td>Trái Đất</td><td>Mặt Trăng đi vào bóng của Trái Đất.</td></tr><tr><td>Thủy triều</td><td>—</td><td>Mực nước biển lên xuống do tác động hấp dẫn và các yếu tố liên quan.</td></tr></tbody></table></div>
     </section>
 
     <section class="section quiz-section slide" id="quiz">
-      <div class="section-head"><span>05</span><div><p class="eyebrow">TƯƠNG TÁC</p><h2>Thử thách nhanh</h2></div></div>
+      <div class="section-head"><span>05</span><div><p class="eyebrow">CÙNG TƯƠNG TÁC</p><h2>Thử thách nhanh</h2><p class="slide-subtitle">Một câu hỏi để kiểm tra kiến thức vừa học</p></div></div>
       <div class="quiz card">
         <p class="q">Khi Trái Đất nằm giữa Mặt Trời và Mặt Trăng, hiện tượng nào có thể xảy ra?</p>
         <div class="answers"><button data-answer="a">A. Nhật thực</button><button data-answer="b">B. Nguyệt thực</button><button data-answer="c">C. Triều kém</button></div>
@@ -69,7 +71,7 @@
     </section>
 
     <section class="closing slide" id="ket-luan">
-      <p class="eyebrow">KẾT LUẬN</p><h2>Nhìn bầu trời bằng con mắt Vật lí.</h2><p>Quan sát một hiện tượng quen thuộc, đặt câu hỏi “vì sao?” và dùng kiến thức vật lí để giải thích — đó chính là cách khoa học bắt đầu.</p>
+      <p class="eyebrow">06 · KẾT LUẬN</p><h2>Nhìn bầu trời bằng con mắt Vật lí.</h2><p>Quan sát một hiện tượng quen thuộc, đặt câu hỏi “vì sao?” và dùng kiến thức vật lí để giải thích — đó chính là cách khoa học bắt đầu.</p>
       <div class="sources"><b>Nguồn tham khảo</b><span>Chuyên đề học tập Vật lí 10 · Kết nối tri thức với cuộc sống</span><span>SGKVN · Nội dung Chuyên đề 2: Trái Đất và bầu trời</span></div>
     </section>
   </main>
@@ -79,7 +81,7 @@
     <button id="nextSlide" aria-label="Slide tiếp theo">Tiếp →</button>
     <button id="fullscreenBtn" aria-label="Toàn màn hình">⛶ Toàn màn hình</button>
   </div>
-  <footer>THUYẾT TRÌNH VẬT LÍ 10 · BÀI 6 · 2026 · Dùng phím ← → để chuyển slide</footer>
+  <footer><span>VẬT LÍ 10</span><span>NHẬT THỰC · NGUYỆT THỰC · THỦY TRIỀU</span><span>DÙNG ← → ĐỂ ĐIỀU HƯỚNG</span></footer>
   <script src="script.js?v=1"></script>
 </body>
 </html>
