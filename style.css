@@ -130,3 +130,10 @@ footer{display:flex;justify-content:space-between;align-items:center;padding:4px
  footer span:nth-child(2){display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* Layout corrections and navigation affordances */
+main{height:calc(100vh - 154px)}
+.closing.slide{display:none!important}
+.closing.slide.active-slide{display:flex!important}
+@media(max-width:850px){main{height:calc(100vh - 144px)}}
