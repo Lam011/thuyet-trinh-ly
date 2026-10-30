@@ -86,6 +86,24 @@ Object.entries(extraInfo).forEach(([id,data])=>{
   game.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{const ok=btn.dataset.answer==='nguyet';game.querySelectorAll('button').forEach(b=>b.classList.remove('picked-correct','picked-wrong'));btn.classList.add(ok?'picked-correct':'picked-wrong');result.textContent=ok?'✓ Chính xác! Trái Đất ở giữa → nguyệt thực.':'✗ Chưa đúng. Hãy nhớ: Mặt Trời → Trái Đất → Mặt Trăng.';}));
 })();
 
+/* Thêm 4 slide kiến thức mở rộng */
+(function addExtraSlides(){
+  const main=document.querySelector('main'); if(!main)return;
+  const compare=document.getElementById('compare');
+  const make=(id,num,eyebrow,title,subtitle,body)=>{
+    const s=document.createElement('section'); s.className='section slide'; s.id=id;
+    s.innerHTML=`<div class="section-head"><span>${num}</span><div><p class="eyebrow">${eyebrow}</p><h2>${title}</h2><p class="slide-subtitle">${subtitle}</p></div></div>${body}`;
+    return s;
+  };
+  const slides=[
+    make('anh-sang-nguyet-thuc','10','GIẢI THÍCH HIỆN TƯỢNG','Vì sao nguyệt thực có thể có màu đỏ?','Ánh sáng đi qua khí quyển Trái Đất tạo nên màu sắc đặc trưng.','<div class="grid two"><article class="card"><div class="icon">🔴</div><h3>Ánh sáng bị lọc</h3><p>Khi ánh sáng Mặt Trời đi qua khí quyển, các thành phần ánh sáng xanh bị tán xạ mạnh hơn. Ánh sáng đỏ cam dễ truyền tới vùng bóng hơn.</p></article><article class="card"><div class="card"><h3>Điều ta quan sát được</h3><p>Trong nguyệt thực toàn phần, Mặt Trăng có thể trông đỏ cam. Màu sắc thực tế còn phụ thuộc trạng thái khí quyển Trái Đất.</p></article></div>'),
+    make('luc-hap-dan','11','LỰC HẤP DẪN','Vì sao Mặt Trăng ảnh hưởng thủy triều mạnh?','Khoảng cách đến Trái Đất khiến tác động thủy triều của Mặt Trăng rất đáng kể.','<div class="grid three"><article class="card"><div class="icon">🌙</div><h3>Mặt Trăng gần hơn</h3><p>So với Mặt Trời, Mặt Trăng ở gần Trái Đất hơn rất nhiều nên tác động tạo thủy triều của nó rất rõ.</p></article><article class="card"><div class="icon">🌊</div><h3>Nước dễ biến dạng</h3><p>Các khối nước lớn có thể dịch chuyển dưới tác động hấp dẫn, góp phần tạo ra sự lên xuống của mực nước.</p></article><article class="card"><div class="icon">↕</div><h3>Không chỉ một phía</h3><p>Hệ thống Trái Đất–Mặt Trăng tạo ra sự phân bố mực nước phức tạp, nên thủy triều không đơn giản chỉ là nước dồn về một phía.</p></article></div>'),
+    make('nhip-thuy-trieu','12','QUAN SÁT THỰC TẾ','Thủy triều thay đổi theo thời gian','Chu kỳ quan sát thực tế liên quan đến chuyển động của Trái Đất và Mặt Trăng.','<div class="grid two"><article class="card"><h3>Không phải lúc nào cũng giống nhau</h3><p>Thời điểm nước lên và xuống thay đổi theo từng ngày. Địa hình bờ biển và đáy biển cũng làm mỗi nơi có đặc điểm riêng.</p><div class="fact"><b>Nhớ:</b> Dự báo thủy triều phải gắn với địa điểm cụ thể.</div></article><article class="card"><h3>Liên hệ đời sống</h3><p>Biết trước mực nước giúp hỗ trợ hoạt động cảng biển, đánh bắt, nuôi trồng và sinh hoạt ở vùng ven biển.</p><div class="fact"><b>Câu hỏi:</b> Vì sao cùng một thời điểm nhưng hai bờ biển có thể có mực nước khác nhau?</div></article></div>'),
+    make('tong-ket-nhanh','13','TỔNG KẾT','Một sơ đồ để nhớ cả chuyên đề','Chỉ cần nhớ vị trí thiên thể và lực hấp dẫn.','<div class="grid three"><article class="card"><div class="icon">☀ → 🌙 → 🌍</div><h3>Nhật thực</h3><p>Mặt Trăng ở giữa Mặt Trời và Trái Đất.</p></article><article class="card"><div class="icon">☀ → 🌍 → 🌙</div><h3>Nguyệt thực</h3><p>Trái Đất ở giữa Mặt Trời và Mặt Trăng.</p></article><article class="card"><div class="icon">🌙 + ☀ → 🌊</div><h3>Thủy triều</h3><p>Lực hấp dẫn và vị trí tương đối ảnh hưởng mực nước biển.</p></article></div><div class="fact"><b>Mẹo thuyết trình:</b> Khi giải thích mỗi hiện tượng, hãy nói theo 3 bước: vị trí → cơ chế → điều quan sát được.</div>')
+  ];
+  if(compare) slides.forEach(s=>main.insertBefore(s,compare)); else slides.forEach(s=>main.appendChild(s));
+})();
+
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
 document.querySelectorAll('.card,.section-head').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity .7s ease, transform .7s ease';observer.observe(el)});
 const style=document.createElement('style');style.textContent=`
