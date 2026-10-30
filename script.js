@@ -1,13 +1,20 @@
 const progress=document.getElementById('progress');
 const themeBtn=document.getElementById('themeBtn');
-const result=document.getElementById('result');
-window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progress.style.width=(scrollY/h*100)+'%'});
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progress.style.width=(h>0?scrollY/h*100:0)+'%'});
 themeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');themeBtn.textContent=document.body.classList.contains('light')?'☀':'☾'});
-document.querySelectorAll('.answers button').forEach(btn=>btn.addEventListener('click',()=>{
-  const correct=btn.dataset.answer==='b';
-  result.textContent=correct?'✓ Chính xác! Nguyệt thực xảy ra khi Trái Đất nằm giữa Mặt Trời và Mặt Trăng.':'✗ Chưa đúng. Hãy nhớ: Trái Đất ở giữa → nguyệt thực.';
-  result.style.color=correct?'#66d9ff':'#ffb36b';
-}));
+
+document.querySelectorAll('.quiz').forEach(quiz=>{
+  const result=quiz.querySelector('.result');
+  quiz.querySelectorAll('.answers button').forEach(btn=>btn.addEventListener('click',()=>{
+    const second=quiz.querySelector('.q')?.textContent.includes('Câu 2');
+    const correct=second ? btn.dataset.answer==='a' : btn.dataset.answer==='b';
+    result.textContent=second
+      ? (correct?'✓ Chính xác! Gần thẳng hàng → triều cường.':'✗ Chưa đúng. Gần thẳng hàng → biên độ thủy triều lớn hơn.')
+      : (correct?'✓ Chính xác! Nguyệt thực xảy ra khi Trái Đất nằm giữa Mặt Trời và Mặt Trăng.':'✗ Chưa đúng. Trái Đất ở giữa → nguyệt thực.');
+    result.style.color=correct?'#66d9ff':'#ffb36b';
+  }));
+});
+
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
 document.querySelectorAll('.card,.section-head').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity .7s ease, transform .7s ease';observer.observe(el)});
 const style=document.createElement('style');style.textContent='.show{opacity:1!important;transform:none!important}';document.head.appendChild(style);
@@ -37,8 +44,8 @@ if(startPresentation) startPresentation.addEventListener('click',()=>showSlide(1
 prevSlide.addEventListener('click',()=>showSlide(currentSlide-1));
 nextSlide.addEventListener('click',()=>showSlide(currentSlide+1));
 document.addEventListener('keydown',event=>{
-  if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();showSlide(currentSlide+1);}
-  if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();showSlide(currentSlide-1);}
+  if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();showSlide(currentSlide+1)}
+  if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();showSlide(currentSlide-1)}
   if(event.key==='Home')showSlide(0);
   if(event.key==='End')showSlide(slides.length-1);
 });
@@ -46,7 +53,7 @@ fullscreenBtn.addEventListener('click',async()=>{
   try{
     if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
     else await document.exitFullscreen();
-  }catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng';}
+  }catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng'}
 });
 const hashId=decodeURIComponent(location.hash.slice(1));
 const hashIndex=slides.findIndex(slide=>slide.id===hashId);
