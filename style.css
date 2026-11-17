@@ -14,3 +14,26 @@ html,body{height:100%;overflow:hidden}body{min-height:100vh}.nav{height:68px;pad
 @media(max-height:760px) and (min-width:851px){#ung-dung .section-head{margin-bottom:12px}#ung-dung .section-head h2{font-size:2.6rem}#ung-dung .slide-subtitle{margin-top:5px}#ung-dung .grid.three .card{padding:16px 18px}#ung-dung .grid.three .card p{font-size:.84rem;line-height:1.5}#ung-dung .fact{padding:11px 15px;margin-top:12px}}
 @media(max-width:850px){html,body{overflow:hidden}.nav{height:58px;padding:10px 5vw}.presentation-label{font-size:.65rem}main{height:calc(100vh - 144px)}.hero.slide{padding:4vh 6vw}.orbit-scene{height:30vh;min-height:180px}.section.slide{padding:25px 6vw}.section-head{gap:12px;margin-bottom:18px}.section .card{padding:18px}.section .diagram-card{min-height:150px}.diagram{font-size:2.2rem;gap:10px}.diagram i{width:35px}.tide{height:180px}.answers{grid-template-columns:1fr}.slide-controls{gap:8px;height:60px}.slide-controls button{padding:8px 10px;font-size:.78rem}#fullscreenBtn{display:none}footer{height:26px;font-size:.55rem;justify-content:center;gap:8px}footer span:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+/* Chuyen dong bo sung: nhe, ro rang va phu hop khi thuyet trinh */
+.slide.active-slide .section-head{animation:headReveal .55s cubic-bezier(.2,.75,.25,1) both}
+.slide.active-slide .card{animation:cardReveal .65s cubic-bezier(.2,.75,.25,1) both}
+.slide.active-slide .grid .card:nth-child(2){animation-delay:.08s}
+.slide.active-slide .grid .card:nth-child(3){animation-delay:.16s}
+.slide.active-slide .fact{animation:factReveal .6s .18s ease both}
+@keyframes headReveal{from{opacity:0;transform:translateY(18px);filter:blur(3px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes cardReveal{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes factReveal{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.section .card{transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+.section .card:hover{transform:translateY(-5px);border-color:rgba(102,217,255,.48);box-shadow:0 25px 65px rgba(0,0,0,.32)}
+.live-dot{animation:dotPulse 2s ease-in-out infinite}
+@keyframes dotPulse{50%{box-shadow:0 0 0 7px rgba(121,224,255,.10),0 0 18px #79e0ff;opacity:.75}}
+.orbit-scene .orbit{animation:orbitGlow 4s ease-in-out infinite alternate}
+.orbit-scene .o2{animation-delay:1.2s}
+@keyframes orbitGlow{from{opacity:.45;transform:scale(.985)}to{opacity:1;transform:scale(1.015)}}
+.diagram-card .diagram{transition:transform .35s ease}
+.diagram-card:hover .diagram{transform:scale(1.045)}
+.slide-controls button:not(:disabled){transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.slide-controls button:not(:disabled):hover{transform:translateY(-2px);border-color:var(--accent);background:rgba(102,217,255,.10)}
+@media(prefers-reduced-motion:reduce){.slide.active-slide .section-head,.slide.active-slide .card,.slide.active-slide .fact,.live-dot,.orbit-scene .orbit{animation:none!important}.section .card,.slide-controls button{transition:none!important}}
