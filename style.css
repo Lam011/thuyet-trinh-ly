@@ -92,3 +92,20 @@ body.motion-off *,body.motion-off *::before,body.motion-off *::after{animation:n
 @keyframes premiumFact{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.slide.active-slide.transition-replay,.slide.active-slide.transition-replay .section-head,.slide.active-slide.transition-replay .grid>.card,.slide.active-slide.transition-replay .fact{animation:none!important;filter:none!important;clip-path:none!important;transform:none!important}}
 body.motion-off .slide.active-slide.transition-replay,body.motion-off .slide.active-slide.transition-replay *{animation:none!important;filter:none!important;clip-path:none!important}
+
+
+/* Particle burst khi chuyen slide: hat sang xanh-tim nhe va tan dan */
+.slide{position:relative}
+.transition-particles{position:absolute;inset:0;z-index:8;overflow:hidden;pointer-events:none;contain:layout paint}
+.transition-particles i{position:absolute;left:50%;top:48%;display:block;width:var(--size);height:var(--size);border-radius:50%;opacity:0;will-change:transform,opacity;animation:particleBurst var(--life) var(--delay) cubic-bezier(.16,.75,.3,1) both}
+.transition-particles .particle-dot{background:#9beaff;box-shadow:0 0 7px 2px rgba(121,224,255,.75),0 0 18px rgba(121,224,255,.45)}
+.transition-particles .particle-dot:nth-child(3n){background:#c4b5ff;box-shadow:0 0 8px 2px rgba(169,150,255,.75),0 0 18px rgba(169,150,255,.4)}
+.transition-particles .particle-streak{width:2px;height:12px;border-radius:99px;background:linear-gradient(to bottom,rgba(190,235,255,0),#a7eaff);box-shadow:0 0 9px rgba(121,224,255,.8)}
+@keyframes particleBurst{
+  0%{opacity:0;transform:translate3d(0,0,0) scale(.35)}
+  18%{opacity:.95}
+  75%{opacity:.7}
+  100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) scale(.05)}
+}
+@media(prefers-reduced-motion:reduce){.transition-particles{display:none!important}}
+body.motion-off .transition-particles{display:none!important}
