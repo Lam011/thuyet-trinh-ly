@@ -112,7 +112,28 @@ const style=document.createElement('style');style.textContent=`
 
 /* PowerPoint-style slide navigation */
 const slides=Array.from(document.querySelectorAll('main .slide'));const prevSlide=document.getElementById('prevSlide');const nextSlide=document.getElementById('nextSlide');const slideCount=document.getElementById('slideCount');const fullscreenBtn=document.getElementById('fullscreenBtn');const startPresentation=document.getElementById('startPresentation');let currentSlide=Math.max(0,slides.findIndex(s=>s.classList.contains('active-slide')));
-function showSlide(index){const previousSlide=currentSlide;const nextIndex=Math.max(0,Math.min(index,slides.length-1));const slideDirection=nextIndex>=previousSlide?'next':'previous';currentSlide=nextIndex;slides.forEach((slide,i)=>{slide.classList.toggle('active-slide',i===currentSlide);slide.dataset.transitionDirection=slideDirection;slide.setAttribute('aria-hidden',i===currentSlide?'false':'true');if(i===currentSlide){slide.scrollTop=0;slide.classList.remove('transition-replay');void slide.offsetWidth;slide.classList.add('transition-replay')}});slideCount.textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');prevSlide.disabled=currentSlide===0;nextSlide.disabled=currentSlide===slides.length-1;progress.style.width=((currentSlide+1)/slides.length*100)+'%';history.replaceState(null,'','#'+(slides[currentSlide].id||('slide-'+(currentSlide+1))));}
+function spawnTransitionParticles(slide){
+  slide.querySelector('.transition-particles')?.remove();
+  if(document.body.classList.contains('motion-off') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const layer=document.createElement('div');
+  layer.className='transition-particles';
+  layer.setAttribute('aria-hidden','true');
+  for(let i=0;i<26;i++){
+    const particle=document.createElement('i');
+    const angle=(Math.PI*2*i/26)+(Math.random()-.5)*.42;
+    const distance=55+Math.random()*190;
+    particle.style.setProperty('--dx',(Math.cos(angle)*distance)+'px');
+    particle.style.setProperty('--dy',(Math.sin(angle)*distance)+'px');
+    particle.style.setProperty('--size',(2+Math.random()*4)+'px');
+    particle.style.setProperty('--delay',(Math.random()*.2)+'s');
+    particle.style.setProperty('--life',(.65+Math.random()*.55)+'s');
+    particle.className=i%4===0?'particle-streak':'particle-dot';
+    layer.appendChild(particle);
+  }
+  slide.appendChild(layer);
+  window.setTimeout(()=>layer.remove(),1500);
+}
+function showSlide(index){const previousSlide=currentSlide;const nextIndex=Math.max(0,Math.min(index,slides.length-1));const slideDirection=nextIndex>=previousSlide?'next':'previous';currentSlide=nextIndex;slides.forEach((slide,i)=>{slide.classList.toggle('active-slide',i===currentSlide);slide.dataset.transitionDirection=slideDirection;slide.setAttribute('aria-hidden',i===currentSlide?'false':'true');if(i===currentSlide){slide.scrollTop=0;slide.classList.remove('transition-replay');void slide.offsetWidth;slide.classList.add('transition-replay');spawnTransitionParticles(slide)}});slideCount.textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');prevSlide.disabled=currentSlide===0;nextSlide.disabled=currentSlide===slides.length-1;progress.style.width=((currentSlide+1)/slides.length*100)+'%';history.replaceState(null,'','#'+(slides[currentSlide].id||('slide-'+(currentSlide+1))));}
 if(startPresentation)startPresentation.addEventListener('click',()=>showSlide(1));prevSlide.addEventListener('click',()=>showSlide(currentSlide-1));nextSlide.addEventListener('click',()=>showSlide(currentSlide+1));document.addEventListener('keydown',event=>{if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();showSlide(currentSlide+1)}if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();showSlide(currentSlide-1)}if(event.key==='Home')showSlide(0);if(event.key==='End')showSlide(slides.length-1)});fullscreenBtn.addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng'}});const hashId=decodeURIComponent(location.hash.slice(1));const hashIndex=slides.findIndex(slide=>slide.id===hashId);if(hashIndex>=0)currentSlide=hashIndex;showSlide(currentSlide);
 
 
