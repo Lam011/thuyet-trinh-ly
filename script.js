@@ -114,3 +114,76 @@ const style=document.createElement('style');style.textContent=`
 const slides=Array.from(document.querySelectorAll('main .slide'));const prevSlide=document.getElementById('prevSlide');const nextSlide=document.getElementById('nextSlide');const slideCount=document.getElementById('slideCount');const fullscreenBtn=document.getElementById('fullscreenBtn');const startPresentation=document.getElementById('startPresentation');let currentSlide=Math.max(0,slides.findIndex(s=>s.classList.contains('active-slide')));
 function showSlide(index){currentSlide=Math.max(0,Math.min(index,slides.length-1));slides.forEach((slide,i)=>{slide.classList.toggle('active-slide',i===currentSlide);slide.setAttribute('aria-hidden',i===currentSlide?'false':'true');if(i===currentSlide)slide.scrollTop=0});slideCount.textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');prevSlide.disabled=currentSlide===0;nextSlide.disabled=currentSlide===slides.length-1;progress.style.width=((currentSlide+1)/slides.length*100)+'%';history.replaceState(null,'','#'+(slides[currentSlide].id||('slide-'+(currentSlide+1))));}
 if(startPresentation)startPresentation.addEventListener('click',()=>showSlide(1));prevSlide.addEventListener('click',()=>showSlide(currentSlide-1));nextSlide.addEventListener('click',()=>showSlide(currentSlide+1));document.addEventListener('keydown',event=>{if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();showSlide(currentSlide+1)}if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();showSlide(currentSlide-1)}if(event.key==='Home')showSlide(0);if(event.key==='End')showSlide(slides.length-1)});fullscreenBtn.addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){fullscreenBtn.textContent='Toàn màn hình không khả dụng'}});const hashId=decodeURIComponent(location.hash.slice(1));const hashIndex=slides.findIndex(slide=>slide.id===hashId);if(hashIndex>=0)currentSlide=hashIndex;showSlide(currentSlide);
+
+
+/* Interactive presentation upgrade: focus mode, motion toggle, touch navigation, card effects */
+(function presentationEnhancements(){
+  if(document.getElementById('focusModeBtn')) return;
+  const nav=document.querySelector('.nav');
+  if(nav){
+    const tools=document.createElement('div');
+    tools.className='presentation-tools';
+    tools.innerHTML='<button type="button" id="focusModeBtn" aria-pressed="false" title="Bật chế độ tập trung">◎ Tập trung</button><button type="button" id="motionModeBtn" aria-pressed="true" title="Bật hoặc tắt hiệu ứng">✦ Hiệu ứng</button>';
+    nav.appendChild(tools);
+  }
+  const focusBtn=document.getElementById('focusModeBtn');
+  const motionBtn=document.getElementById('motionModeBtn');
+  focusBtn?.addEventListener('click',()=>{
+    const enabled=document.body.classList.toggle('focus-mode');
+    focusBtn.setAttribute('aria-pressed',String(enabled));
+    focusBtn.textContent=enabled?'◎ Tắt tập trung':'◎ Tập trung';
+  });
+  motionBtn?.addEventListener('click',()=>{
+    const enabled=document.body.classList.toggle('motion-off');
+    motionBtn.setAttribute('aria-pressed',String(!enabled));
+    motionBtn.textContent=enabled?'✧ Hiệu ứng: tắt':'✦ Hiệu ứng';
+  });
+
+  // Pointer glow and gentle 3D tilt on knowledge cards.
+  document.querySelectorAll('.section .card').forEach(card=>{
+    card.addEventListener('pointermove',event=>{
+      if(document.body.classList.contains('motion-off') || event.pointerType==='touch') return;
+      const r=card.getBoundingClientRect();
+      const x=(event.clientX-r.left)/r.width;
+      const y=(event.clientY-r.top)/r.height;
+      card.style.setProperty('--pointer-x',(x*100)+'%');
+      card.style.setProperty('--pointer-y',(y*100)+'%');
+      if(!card.classList.contains('diagram-card') && !card.closest('.quiz')){
+        card.style.setProperty('--tilt-x',((.5-y)*3)+'deg');
+        card.style.setProperty('--tilt-y',((x-.5)*3)+'deg');
+      }
+    });
+    card.addEventListener('pointerleave',()=>{
+      card.style.setProperty('--tilt-x','0deg');
+      card.style.setProperty('--tilt-y','0deg');
+    });
+  });
+
+  // Swipe left/right to change slides on touch screens.
+  let touchX=null, touchY=null;
+  document.addEventListener('touchstart',e=>{
+    if(!e.touches?.length) return;
+    touchX=e.touches[0].clientX; touchY=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(touchX===null || !e.changedTouches?.length) return;
+    const dx=e.changedTouches[0].clientX-touchX;
+    const dy=e.changedTouches[0].clientY-touchY;
+    if(Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)*1.25){
+      if(dx<0) showSlide(currentSlide+1); else showSlide(currentSlide-1);
+    }
+    touchX=null; touchY=null;
+  },{passive:true});
+
+  // Helpful shortcut hint.
+  document.addEventListener('keydown',e=>{
+    if(e.key.toLowerCase()==='f' && !e.ctrlKey && !e.metaKey && !e.altKey){
+      if(document.activeElement?.matches('input,textarea,button')) return;
+      focusBtn?.click();
+    }
+    if(e.key.toLowerCase()==='m' && !e.ctrlKey && !e.metaKey && !e.altKey){
+      if(document.activeElement?.matches('input,textarea,button')) return;
+      motionBtn?.click();
+    }
+  });
+})();
