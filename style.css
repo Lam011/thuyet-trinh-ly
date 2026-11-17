@@ -109,3 +109,35 @@ body.motion-off .slide.active-slide.transition-replay,body.motion-off .slide.act
 }
 @media(prefers-reduced-motion:reduce){.transition-particles{display:none!important}}
 body.motion-off .transition-particles{display:none!important}
+
+
+/* Particle palette: deep violet + black */
+.transition-particles .particle-dot{
+  background:#b69aff;
+  box-shadow:0 0 7px 2px rgba(159,112,255,.82),0 0 18px rgba(111,54,190,.62);
+}
+.transition-particles .particle-dot:nth-child(3n){
+  background:#e0caff;
+  box-shadow:0 0 8px 2px rgba(185,139,255,.78),0 0 20px rgba(91,40,150,.58);
+}
+.transition-particles .particle-streak{
+  background:linear-gradient(to bottom,rgba(30,12,48,0),#9a6bdf);
+  box-shadow:0 0 9px rgba(139,83,218,.85);
+}
+.slide.active-slide.transition-replay{
+  --violet-glow:rgba(104,55,160,.22);
+}
+.slide.active-slide.transition-replay::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 50% 48%,rgba(111,58,168,.16),transparent 58%);
+  animation:violetFlash .8s ease-out both;
+}
+@keyframes violetFlash{
+  0%{opacity:0}
+  28%{opacity:1}
+  100%{opacity:0}
+}
